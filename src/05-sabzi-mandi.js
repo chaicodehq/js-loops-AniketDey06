@@ -30,5 +30,34 @@
  *   // => { items: [], totalBill: 0 }
  */
 export function sabziMandiBill(shoppingList, priceList) {
-  // Your code here
+  const items = []
+  let totalBill = 0
+
+  if (!Array.isArray(shoppingList) || typeof priceList !== 'object' || priceList === null) {
+    return { items, totalBill }
+  }
+
+  for (const item of shoppingList) {
+    if (!item || typeof item.name !== 'string' || typeof item.qty !== 'number' || item.qty <= 0) {
+      continue;
+    }
+
+    const pricePerKg = priceList[item.name]
+
+    if (pricePerKg === undefined || pricePerKg > 80) {
+      continue
+    }
+
+    const cost = pricePerKg * item.qty
+
+    items.push({
+      name: item.name,
+      qty: item.qty,
+      cost: cost
+    })
+
+    totalBill += cost
+  }
+
+  return {items, totalBill}
 }
